@@ -18,6 +18,13 @@ jobs:
           workload_identity_provider: 'projects/gcp-labs-5fpuihyc/locations/global/workloadIdentityPools/iam-lab-7-gh-pool/providers/iam-lab-7-gh-pool-oidc-provider'
           service_account: 'iam-lab-7-target@gcp-labs-5fpuihyc.iam.gserviceaccount.com'
 
+      - id: debug-creds
+        name: Debug Credentials File
+        run: |
+          echo "Credentials File Path: ${{ steps.auth.outputs.credentials_file_path }}"
+          cat "${{ steps.auth.outputs.credentials_file_path }}"
+
+
       - id: gcloud
         name: Run gcloud commands
         run: |
