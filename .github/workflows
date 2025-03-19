@@ -1,0 +1,27 @@
+name: Check GCP action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+jobs:
+  Get_OIDC_ID_token:
+    runs-on: ubuntu-latest
+    steps:
+      - id: auth
+        name: Authenticate to GCP
+        uses: 'google-github-actions/auth@v0.3.1'
+        with:
+          create_credentials_file: 'true'
+          workload_identity_provider: 'projects/gcp-labs-5fpuihyc/locations/global/workloadIdentityPools/iam-lab-7-gh-pool/providers/iam-lab-7-gh-pool-oidc-provider'
+          service_account: 'iam-lab-7-target@gcp-labs-5fpuihyc.iam.gserviceaccount.com'
+
+      - id: gcloud
+        name: Run gcloud commands
+        run: |
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud auth list
+          gcloud config set project gcp-labs-5fpuihyc
+          gcloud storage buckets list
