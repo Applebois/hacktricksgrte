@@ -27,4 +27,4 @@ jobs:
         name: "Extract Secret"
         run: |
           gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-          gcloud secrets list
+          gcloud secrets list --project gcp-labs-5fpuihyc
