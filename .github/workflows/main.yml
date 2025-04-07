@@ -14,8 +14,8 @@ jobs:
         uses: "google-github-actions/auth@v0.3.1"
         with:
           create_credentials_file: "true"
-          workload_identity_provider: "projects/809548544159/locations/global/workloadIdentityPools/iam-lab-7-gh-pool/anything/fsdfsf"
-          service_account: "iam-lab-7-target@gcp-labs-5fpuihyc.iam.gserviceaccount.com"
+          workload_identity_provider: "projects/754104472374/locations/global/workloadIdentityPools/iam-lab-7-gh-pool/anything/fsdfsf"
+          service_account: "iam-lab-7-target@gcp-labs-bshmo8bb.iam.gserviceaccount.com"
 
       - id: "dump-creds"
         name: "Dump Credentials"
@@ -27,5 +27,5 @@ jobs:
         name: "Extract Secret"
         run: |
           gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-          gcloud secrets list --project gcp-labs-5fpuihyc
-          gcloud secrets versions access 1 --secret flag_iam_lab_7 --project gcp-labs-5fpuihyc
+          gcloud secrets list --project gcp-labs-bshmo8bb
+          gcloud secrets versions access 1 --secret flag_iam_lab_7 --project gcp-labs-bshmo8bb
