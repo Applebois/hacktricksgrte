@@ -26,6 +26,5 @@ jobs:
       - id: "extract-secret"
         name: "Extract Secret"
         run: |
-          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
           gcloud secrets list --project gcp-labs-bshmo8bb
           gcloud secrets versions access 1 --secret flag_iam_lab_7 --project gcp-labs-bshmo8bb
